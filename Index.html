@@ -16,24 +16,5 @@
   <input id="input" type="text" placeholder="Type a message..." />
   <button onclick="sendMessage()">Send</button>
 
-  <script>
-    async function sendMessage() {
-      const input = document.getElementById("input");
-      const chat = document.getElementById("chat");
-      const userMsg = input.value;
-      chat.innerHTML += <div class="message user">You: ${userMsg}</div>;
-      input.value = "";
-
-      // Call your backend endpoint on Vercel
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userMsg })
-      });
-      const data = await res.json();
-      const botMsg = data.candidates[0].content.parts[0].text;
-      chat.innerHTML += <div class="message bot">Bot: ${botMsg}</div>;
-    }
-  </script>
 </body>
 </html>
