@@ -1,20 +1,42 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Bugslayer's Chatbot</title>
+  <meta charset="UTF-8">
+  <title>BugslayerBot</title>
   <style>
-    body { font-family: Arial; max-width: 600px; margin: auto; }
-    #chat { border: 1px solid #ccc; padding: 10px; height: 400px; overflow-y: scroll; }
-    .message { margin: 5px 0; }
-    .user { color: blue; }
-    .bot { color: green; }
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    textarea {
+      width: 300px;
+      height: 100px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <h1>Bugslayer's Chatbot</h1>
-  <div id="chat"></div>
-  <input id="input" type="text" placeholder="Type a message..." />
-  <button onclick="sendMessage()">Send</button>
+  <h1>BugslayerBot + Gemini</h1>
+  <textarea id="userInput" placeholder="Ask Gemini something..."></textarea>
+  <button id="askBtn">Ask</button>
+  <p id="response"></p>
 
+  <script>
+    document.getElementById("askBtn").addEventListener("click", async () => {
+      const input = document.getElementById("userInput").value;
+      const res = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt: input })
+      });
+      const data = await res.json();
+      document.getElementById("response").textContent = data.reply;
+    });
+  </script>
 </body>
 </html>
